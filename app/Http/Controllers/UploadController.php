@@ -28,7 +28,7 @@ class UploadController extends Controller
 
         return response()->json([
             'fileName' => $fileName,
-            'path' => env('APP_URL') . '/storage/' . $path,
+            'path' => asset('storage/' . $path),
         ]);
     }
 
