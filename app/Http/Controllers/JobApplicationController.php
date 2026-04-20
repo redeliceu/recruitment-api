@@ -46,4 +46,19 @@ class JobApplicationController extends Controller
             ], 500);
         }
     }
+
+    public function getAll()
+    {
+        try {
+            $applications = JobApplication::all();
+
+            return response()->json([
+                'data' => $applications
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage() ?? 'Internal server error'
+            ], 500);
+        }
+    }
 }
