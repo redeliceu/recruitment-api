@@ -20,6 +20,7 @@ class JobApplication extends Model
         'has_experience',
         'salary_intention',
         'starts',
-        'cv_url'
+        'cv_url',
+        'status'
     ];
 }

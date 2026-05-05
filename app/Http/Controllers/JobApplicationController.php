@@ -61,4 +61,38 @@ class JobApplicationController extends Controller
             ], 500);
         }
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $validatedData = $request->validate([
+                'status' => 'required|integer|in:0,1,2,3',
+            ]);
+
+            $application = JobApplication::find($id);
+
+            if (! $application) {
+                return response()->json([
+                    'message' => 'Job application not found.'
+                ], 404);
+            }
+
+            $application->status = $validatedData['status'];
+            $application->save();
+
+            return response()->json([
+                'message' => 'Status updated successfully',
+                'data' => $application
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Invalid status value. Accepted values are 0, 1, 2, 3.',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage() ?? 'Internal server error'
+            ], 500);
+        }
+    }
 }

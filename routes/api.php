@@ -8,6 +8,7 @@ Route::post('/upload', [UploadController::class, 'upload']);
 Route::delete('/upload', [UploadController::class, 'delete']);
 
 Route::post('/application', [JobApplicationController::class, 'store']);
+Route::patch('/application/{id}/status', [JobApplicationController::class, 'updateStatus']);
 
 Route::get('/applications', [JobApplicationController::class, 'getAll']);
 
