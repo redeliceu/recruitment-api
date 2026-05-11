@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
             $table->string('label');
-            $table->foreignId('status')->constrained('vacancies_status');
+            $table->boolean('is_active')->default(true);
             $table->foreignId('category_id')->constrained('vacancies_category');
             $table->decimal('salary', 10, 2)->nullable();
             $table->text('description')->nullable();
