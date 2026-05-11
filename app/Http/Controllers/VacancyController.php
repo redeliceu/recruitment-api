@@ -94,11 +94,11 @@ class VacancyController extends Controller
     {
         try {
             $categories = VacancyCategory::all();
-            //$statuses = VacancyStatus::all();
+            $statuses = VacancyStatus::all();
 
             return response()->json([
                 'categories' => $categories,
-                //'statuses' => $statuses,
+                'statuses' => $statuses,
             ]);
         } catch (\Exception $e) {
             return response()->json([
