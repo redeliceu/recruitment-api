@@ -11,6 +11,7 @@ class Vacancy extends Model
     protected $fillable = [
         'label',
         'is_active',
+        'status',
         'category_id',
         'salary',
         'description',
@@ -20,5 +21,10 @@ class Vacancy extends Model
     public function category()
     {
         return $this->belongsTo(VacancyCategory::class, 'category_id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(VacancyStatus::class, 'status');
     }
 }

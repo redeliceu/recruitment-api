@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Vacancy;
 use App\Models\VacancyCategory;
+use App\Models\VacancyStatus;
 
 class VacancyController extends Controller
 {
@@ -13,6 +14,7 @@ class VacancyController extends Controller
         try {
             $validatedData = $request->validate([
                 'label' => 'required|string|max:255',
+                'status' => 'required|integer|exists:vacancies_status,id',
                 'is_active' => 'sometimes|required|boolean',
                 'category_id' => 'required|integer|exists:vacancies_category,id',
                 'salary' => 'nullable|numeric|min:0',
@@ -38,6 +40,7 @@ class VacancyController extends Controller
         try {
             $validatedData = $request->validate([
                 'label' => 'sometimes|required|string|max:255',
+                'status' => 'required|integer|exists:vacancies_status,id',
                 'is_active' => 'sometimes|required|boolean',
                 'category_id' => 'sometimes|required|integer|exists:vacancies_category,id',
                 'salary' => 'sometimes|nullable|numeric|min:0',
@@ -69,7 +72,7 @@ class VacancyController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Vacancy::with(['category']);
+            $query = Vacancy::with(['category', 'status']);
 
             if ($request->has('category_id') && $request->category_id) {
                 $query->where('category_id', $request->category_id);

@@ -21,8 +21,8 @@ class VacancyStatusSeeder extends Seeder
             ['label' => 'ENTREVISTA E TESTE'],
             ['label' => 'ENTREVISTA FASE 2'],
             ['label' => 'ENVIO DE FEEDBACK'],
-            ['label' => 'CONTRATADO'],
-            ['label' => 'REJEITADO'],
+            ['label' => 'FINALIZADO'],
+            ['label' => 'SUSPENSO'],
         ];
 
         foreach ($statuses as $status) {
