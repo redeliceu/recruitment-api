@@ -16,6 +16,7 @@ class JobApplicationController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'job_name' => 'required|string|max:255',
+                'vacancy_id' => 'required|integer|exists:vacancies,id',
                 'number_phone' => 'required|nullable|string|max:20',
                 'email' => 'required|email|unique:job_applications,email',
                 'location' => 'required|string|max:255',
@@ -92,6 +93,72 @@ class JobApplicationController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage() ?? 'Internal server error'
+            ], 500);
+        }
+    }
+
+    public function exportCvsInZip(Request $request)
+    {
+        try {
+
+            $ids = $request->input('ids', []);
+
+            if (empty($ids)) {
+                return response()->json([
+                    'message' => 'No application IDs provided.'
+                ], 400);
+            }
+
+            $applications = JobApplication::whereIn('id', $ids)
+                ->whereNotNull('cv_url')
+                ->get();
+
+            if ($applications->isEmpty()) {
+                return response()->json([
+                    'message' => 'No CVs found.'
+                ], 404);
+            }
+
+            $zipFileName = 'cvs_' . time() . '.zip';
+            $zipFilePath = storage_path('app/' . $zipFileName);
+
+            $zip = new \ZipArchive();
+
+            if ($zip->open($zipFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+
+                return response()->json([
+                    'message' => 'Failed to create ZIP file.'
+                ], 500);
+            }
+
+            foreach ($applications as $application) {
+
+                $relativePath = str_replace(
+                    '/storage/',
+                    '',
+                    parse_url($application->cv_url, PHP_URL_PATH)
+                );
+
+                $fullPath = storage_path('app/public/' . $relativePath);
+
+                if (file_exists($fullPath)) {
+
+                    $zip->addFile(
+                        $fullPath,
+                        basename($fullPath)
+                    );
+                }
+            }
+
+            $zip->close();
+
+            return response()
+                ->download($zipFilePath)
+                ->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'message' => $e->getMessage()
             ], 500);
         }
     }

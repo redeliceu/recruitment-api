@@ -21,6 +21,7 @@ class JobApplication extends Model
         'salary_intention',
         'starts',
         'cv_url',
-        'status'
+        'status',
+        'vacancy_id',
     ];
 }

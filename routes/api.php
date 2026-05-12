@@ -19,6 +19,8 @@ Route::delete('/vacancy/{id}', [VacancyController::class, 'destroy']);
 Route::get('/vacancies', [VacancyController::class, 'index']);
 Route::get('/vacancy/metadata', [VacancyController::class, 'metadata']);
 
+Route::post('/applications/cvs', [JobApplicationController::class, 'exportCvsInZip']);
+
 Route::get('/health', function () {
     return response()->json(['status' => 'ok']);
 });
