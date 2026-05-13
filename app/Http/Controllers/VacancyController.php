@@ -46,6 +46,9 @@ class VacancyController extends Controller
                 'salary' => 'sometimes|nullable|numeric|min:0',
                 'description' => 'sometimes|nullable|string',
                 'number_of_vacancies' => 'sometimes|required|integer|min:1',
+                'vacancy_link' => 'sometimes|nullable|string|max:255',
+                'active_update' => 'sometimes|nullable|date',
+                'share_counter' => 'sometimes|integer|min:0',
             ]);
 
             $vacancy = Vacancy::find($id);

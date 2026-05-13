@@ -16,6 +16,9 @@ class Vacancy extends Model
         'salary',
         'description',
         'number_of_vacancies',
+        'vacancy_link',
+        'active_update',
+        'share_counter',
     ];
 
     public function category()
