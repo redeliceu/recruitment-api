@@ -75,7 +75,7 @@ class VacancyController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Vacancy::with(['category', 'status'])->where('is_active', true);
+            $query = Vacancy::with(['category', 'status']);
 
             if ($request->has('category_id') && $request->category_id) {
                 $query->where('category_id', $request->category_id);
