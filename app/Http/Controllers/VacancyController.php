@@ -40,7 +40,7 @@ class VacancyController extends Controller
         try {
             $validatedData = $request->validate([
                 'label' => 'sometimes|required|string|max:255',
-                'status' => 'required|integer|exists:vacancies_status,id',
+                'status' => 'sometimes|integer|exists:vacancies_status,id',
                 'is_active' => 'sometimes|required|boolean',
                 'category_id' => 'sometimes|required|integer|exists:vacancies_category,id',
                 'salary' => 'sometimes|nullable|numeric|min:0',
