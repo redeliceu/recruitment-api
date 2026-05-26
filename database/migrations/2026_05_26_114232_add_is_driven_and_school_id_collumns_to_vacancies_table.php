@@ -12,10 +12,29 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('vacancies', function (Blueprint $table) {
-            //
-            $table->boolean('is_driven')->default(false)->after('number_of_vacancies');
-            $table->foreignId('school_id')->nullable()->constrained('schools', 'id')->after('is_driven');
-            $table->foreignId('context_id')->nullable()->constrained('vacancies_context', 'id')->after('school_id');
+
+            $table->boolean('is_driven')
+                ->default(false)
+                ->after('number_of_vacancies');
+
+            $table->unsignedBigInteger('school_id')
+                ->nullable()
+                ->after('is_driven');
+
+            $table->unsignedBigInteger('context_id')
+                ->nullable()
+                ->after('school_id');
+        });
+
+        Schema::table('vacancies', function (Blueprint $table) {
+
+            $table->foreign('school_id')
+                ->references('id')
+                ->on('schools');
+
+            $table->foreign('vacancy_context_id')
+                ->references('id')
+                ->on('vacancies_context');
         });
     }
 
