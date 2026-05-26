@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\VacancyController;
+use App\Http\Controllers\VacancyContextController;
+use App\Http\Controllers\SchoolsController;
 
 Route::post('/upload', [UploadController::class, 'upload']);
 Route::delete('/upload', [UploadController::class, 'delete']);
@@ -20,6 +22,20 @@ Route::get('/vacancies', [VacancyController::class, 'index']);
 Route::get('/vacancy/metadata', [VacancyController::class, 'metadata']);
 
 Route::post('/applications/cvs', [JobApplicationController::class, 'exportCvsInZip']);
+
+// Rotas para Contexto de Vagas
+Route::post('/vacancy-context', [VacancyContextController::class, 'store']);
+Route::get('/vacancy-context', [VacancyContextController::class, 'index']);
+Route::get('/vacancy-context/{id}', [VacancyContextController::class, 'show']);
+Route::put('/vacancy-context/{id}', [VacancyContextController::class, 'update']);
+Route::delete('/vacancy-context/{id}', [VacancyContextController::class, 'destroy']);
+
+// Rotas para Escolas
+Route::post('/schools', [SchoolsController::class, 'store']);
+Route::get('/schools', [SchoolsController::class, 'index']);
+Route::get('/schools/{id}', [SchoolsController::class, 'show']);
+Route::put('/schools/{id}', [SchoolsController::class, 'update']);
+Route::delete('/schools/{id}', [SchoolsController::class, 'destroy']);
 
 Route::get('/health', function () {
     return response()->json(['status' => 'ok']);

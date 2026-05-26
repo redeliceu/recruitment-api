@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Schools;
 use Illuminate\Http\Request;
 use App\Models\Vacancy;
 use App\Models\VacancyCategory;
+use App\Models\VacancyContext;
 use App\Models\VacancyStatus;
 
 class VacancyController extends Controller
@@ -20,6 +22,9 @@ class VacancyController extends Controller
                 'salary' => 'nullable|numeric|min:0',
                 'description' => 'nullable|string',
                 'number_of_vacancies' => 'required|integer|min:1',
+                'is_driven' => 'sometimes|nullable|boolean',
+                'school_id' => 'sometimes|nullable|integer|exists:schools,id',
+                'vacancy_context_id' => 'sometimes|nullable|integer|exists:vacancies_context,id',
             ]);
 
             $vacancy = Vacancy::create($validatedData);
@@ -49,6 +54,9 @@ class VacancyController extends Controller
                 'vacancy_link' => 'sometimes|nullable|string|max:255',
                 'active_update' => 'sometimes|nullable|date',
                 'share_counter' => 'sometimes|integer|min:0',
+                'is_driven' => 'sometimes|nullable|boolean',
+                'school_id' => 'sometimes|nullable|integer|exists:schools,id',
+                'vacancy_context_id' => 'sometimes|nullable|integer|exists:vacancies_context,id',
             ]);
 
             $vacancy = Vacancy::find($id);
@@ -98,10 +106,14 @@ class VacancyController extends Controller
         try {
             $categories = VacancyCategory::all();
             $statuses = VacancyStatus::all();
+            $contexts = VacancyContext::all();
+            $schools = Schools::all();
 
             return response()->json([
                 'categories' => $categories,
                 'statuses' => $statuses,
+                'contexts' => $contexts,
+                'schools' => $schools
             ]);
         } catch (\Exception $e) {
             return response()->json([
