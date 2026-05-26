@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::table('vacancies', function (Blueprint $table) {
             //
             $table->boolean('is_driven')->default(false)->after('number_of_vacancies');
-            $table->foreignId('school_id')->constrained('schools')->nullable()->after('is_driven');
+            $table->foreignId('school_id')->nullable()->constrained('schools', 'id')->after('is_driven');
+            $table->foreignId('context_id')->nullable()->constrained('vacancies_context', 'id')->after('school_id');
         });
     }
 
@@ -28,6 +29,8 @@ return new class extends Migration
             $table->dropColumn('is_driven');
             $table->dropForeign(['school_id']);
             $table->dropColumn('school_id');
+            $table->dropForeign(['context_id']);
+            $table->dropColumn('context_id');
         });
     }
 };
