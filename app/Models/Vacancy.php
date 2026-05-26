@@ -19,6 +19,9 @@ class Vacancy extends Model
         'vacancy_link',
         'active_update',
         'share_counter',
+        'is_driven',
+        'school_id',
+        'vacancy_context_id',
     ];
 
     public function category()
