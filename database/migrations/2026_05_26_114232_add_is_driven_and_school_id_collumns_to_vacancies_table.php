@@ -21,7 +21,7 @@ return new class extends Migration
                 ->nullable()
                 ->after('is_driven');
 
-            $table->unsignedBigInteger('context_id')
+            $table->unsignedBigInteger('vacancy_context_id')
                 ->nullable()
                 ->after('school_id');
         });
@@ -48,8 +48,8 @@ return new class extends Migration
             $table->dropColumn('is_driven');
             $table->dropForeign(['school_id']);
             $table->dropColumn('school_id');
-            $table->dropForeign(['context_id']);
-            $table->dropColumn('context_id');
+            $table->dropForeign(['vacancy_context_id']);
+            $table->dropColumn('vacancy_context_id');
         });
     }
 };
