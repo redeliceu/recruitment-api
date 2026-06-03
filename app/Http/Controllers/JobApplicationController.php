@@ -67,7 +67,7 @@ class JobApplicationController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'status' => 'required|integer|in:0,1,2,3',
+                'status' => 'required|integer|in:0,1,2,3,4,5,6,7,8',
             ]);
 
             $application = JobApplication::find($id);
@@ -87,7 +87,7 @@ class JobApplicationController extends Controller
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
-                'message' => 'Invalid status value. Accepted values are 0, 1, 2, 3.',
+                'message' => 'Invalid status value. Accepted values are 0, 1, 2, 3, 4, 5, 6, 7, 8.',
                 'errors' => $e->errors(),
             ], 422);
         } catch (\Exception $e) {
