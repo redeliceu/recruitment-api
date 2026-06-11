@@ -23,5 +23,12 @@ class JobApplication extends Model
         'cv_url',
         'status',
         'vacancy_id',
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content',
+        'referrer',
+        'landing_page',
     ];
 }

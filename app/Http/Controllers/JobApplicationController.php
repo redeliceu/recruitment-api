@@ -27,6 +27,13 @@ class JobApplicationController extends Controller
                 'salary_intention' => 'required|string|max:50',
                 'starts' => 'required|string|max:255',
                 'cv_url' => 'required|nullable|string|max:255',
+                'utm_source' => 'nullable|string|max:255',
+                'utm_medium' => 'nullable|string|max:255',
+                'utm_campaign' => 'nullable|string|max:255',
+                'utm_term' => 'nullable|string|max:255',
+                'utm_content' => 'nullable|string|max:255',
+                'referrer' => 'nullable|string|max:255',
+                'landing_page' => 'nullable|string|max:255',
             ], [
                 'email.email' => 'The email must be a valid email address.',
                 'email.unique' => 'The email has already been taken.',
