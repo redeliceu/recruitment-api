@@ -34,5 +34,8 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'open_vacancies' => [
+        'url' => env('OPEN_VACANCIES_ENDPOINT'),
+    ],
 
 ];
