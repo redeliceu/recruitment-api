@@ -6,6 +6,7 @@ use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\VacancyController;
 use App\Http\Controllers\VacancyContextController;
 use App\Http\Controllers\SchoolsController;
+use App\Http\Controllers\ExitInterviewController;
 
 Route::post('/upload', [UploadController::class, 'upload']);
 Route::delete('/upload', [UploadController::class, 'delete']);
@@ -29,6 +30,10 @@ Route::get('/vacancy-context', [VacancyContextController::class, 'index']);
 Route::get('/vacancy-context/{id}', [VacancyContextController::class, 'show']);
 Route::put('/vacancy-context/{id}', [VacancyContextController::class, 'update']);
 Route::delete('/vacancy-context/{id}', [VacancyContextController::class, 'destroy']);
+
+// Rotas para Exit Interviews
+Route::post('/exit-interviews', [ExitInterviewController::class, 'store']);
+Route::get('/exit-interviews', [ExitInterviewController::class, 'index']);
 
 // Rotas para Escolas
 Route::post('/schools', [SchoolsController::class, 'store']);
