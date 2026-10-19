@@ -22,6 +22,8 @@ class Vacancy extends Model
         'is_driven',
         'school_id',
         'vacancy_context_id',
+        'location',
+        'type',
     ];
 
     public function category()

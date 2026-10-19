@@ -25,6 +25,8 @@ class VacancyController extends Controller
                 'is_driven' => 'sometimes|nullable|boolean',
                 'school_id' => 'sometimes|nullable|integer|exists:schools,id',
                 'vacancy_context_id' => 'sometimes|nullable|integer|exists:vacancies_context,id',
+                'location' => 'sometimes|nullable|string|max:255',
+                'type' => 'sometimes|nullable|boolean',
             ]);
 
             $vacancy = Vacancy::create($validatedData);
@@ -57,6 +59,8 @@ class VacancyController extends Controller
                 'is_driven' => 'sometimes|nullable|boolean',
                 'school_id' => 'sometimes|nullable|integer|exists:schools,id',
                 'vacancy_context_id' => 'sometimes|nullable|integer|exists:vacancies_context,id',
+                'location' => 'sometimes|nullable|string|max:255',
+                'type' => 'sometimes|nullable|boolean',
             ]);
 
             $vacancy = Vacancy::find($id);
