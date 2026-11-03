@@ -23,6 +23,7 @@ class JobApplication extends Model
         'cv_url',
         'status',
         'vacancy_id',
+        'talent_category',
         'utm_source',
         'utm_medium',
         'utm_campaign',

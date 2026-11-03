@@ -17,6 +17,7 @@ class JobApplicationController extends Controller
                 'name' => 'required|string|max:255',
                 'job_name' => 'required|string|max:255',
                 'vacancy_id' => 'required|integer|exists:vacancies,id',
+                'talent_category' => 'nullable|integer',
                 'number_phone' => 'required|nullable|string|max:20',
                 'email' => 'required|email|unique:job_applications,email',
                 'location' => 'required|string|max:255',
