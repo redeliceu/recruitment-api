@@ -27,7 +27,12 @@ class JobApplicationController extends Controller
                 'has_experience' => 'required|boolean',
                 'salary_intention' => 'required|string|max:50',
                 'starts' => 'required|string|max:255',
-                'cv_url' => 'required|nullable|string|max:255',
+                // Só aceita URLs geradas pelo próprio /api/upload (sem "../"), evitando leitura de arquivos do servidor
+                'cv_url' => [
+                    'required', 'string', 'max:255',
+                    'starts_with:' . rtrim(config('app.url'), '/') . '/storage/uploads/',
+                    'not_regex:#(\.\./|\.\.\\\\|%2e%2e|%2f|%5c)#i',
+                ],
                 'utm_source' => 'nullable|string|max:255',
                 'utm_medium' => 'nullable|string|max:255',
                 'utm_campaign' => 'nullable|string|max:255',
@@ -147,13 +152,20 @@ class JobApplicationController extends Controller
                     parse_url($application->cv_url, PHP_URL_PATH)
                 );
 
-                $fullPath = storage_path('app/public/' . $relativePath);
+                $fullPath = realpath(storage_path('app/public/' . $relativePath));
+                $uploadsDir = realpath(storage_path('app/public/uploads'));
 
-                if (file_exists($fullPath)) {
+                // Só arquivos que estejam de fato dentro de storage/app/public/uploads
+                if ($fullPath && $uploadsDir && str_starts_with($fullPath, $uploadsDir . DIRECTORY_SEPARATOR) && is_file($fullPath)) {
+
+                    // Nome no zip = candidato + id (os arquivos no servidor agora têm nome aleatório)
+                    $ext = strtolower(pathinfo($fullPath, PATHINFO_EXTENSION));
+                    $entryName = (\Illuminate\Support\Str::slug($application->name) ?: 'candidato')
+                        . '_' . $application->id . ($ext !== '' ? '.' . $ext : '');
 
                     $zip->addFile(
                         $fullPath,
-                        basename($fullPath)
+                        $entryName
                     );
                 }
             }
