@@ -14,10 +14,19 @@ class UploadController extends Controller
             ], 400);
         }
 
+        // Só documentos/imagens de currículo. Bloqueia .php e afins, que o nginx executaria em /storage
+        $request->validate([
+            'file' => [
+                'required', 'file', 'max:10240',
+                'extensions:pdf,doc,docx,jpg,jpeg,png,heic',
+                'mimes:pdf,doc,docx,jpg,jpeg,png,heic',
+            ],
+        ]);
+
         $file = $request->file('file');
 
-        // Gera nome único
-        $fileName = time() . '_' . $file->getClientOriginalName();
+        // Gera nome único no servidor; nunca usar o nome enviado pelo cliente
+        $fileName = time() . '_' . \Illuminate\Support\Str::random(16) . '.' . strtolower($file->getClientOriginalExtension());
 
         // Salva em storage/app/public/uploads
         $path = $file->storeAs(
@@ -42,7 +51,8 @@ class UploadController extends Controller
             ], 400);
         }
 
-        $filePath = 'uploads/' . $fileName;
+        // Impede caminhos como "../": só nomes de arquivo dentro de uploads/
+        $filePath = 'uploads/' . basename($fileName);
 
         if (!\Storage::disk('public')->exists($filePath)) {
             return response()->json([
